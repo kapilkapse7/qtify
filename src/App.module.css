@@ -1,24 +1,14 @@
-.sectionWrapper {
-    padding: 0px 30px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-  .faqs {
-    padding-left: 100px;
-    padding-right: 100px;
-    margin-bottom: 100px;
-  }
-  .heading {
-    color: white;
-    text-decoration-color: white;
-    text-align: center;
-    margin-top: 20px;
-  }
-  .heading2 {
-    margin-right: auto;
-    color: white;
-    margin-left: 5px;
-    margin-top: 5px;
-  }
+.sectionWrapper{
+  padding: 0px 30px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+}
+
+.songs{
+  border-top: 1px solid var(--color-primary);
+  border-bottom: 1px solid var(--color-primary);
+  padding: 10px 30px 0px ;
   
+}

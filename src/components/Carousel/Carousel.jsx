@@ -45,3 +45,6 @@ const Carousel = ({data,renderComponent}) => {
 }
 
 export default Carousel
+
+
+

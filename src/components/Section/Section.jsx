@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import styles from "./Section.module.css"
 import {  CircularProgress } from '@mui/material'
-import Card from '../Card/Card.jsx'
-import Carousel from '../Carousel/Carousel.jsx'
-import BasicTabs from '../Tabs/Tabs.jsx'
+import Card from '../Card/Card'
+import Carousel from '../Carousel/Carousel'
+import BasicTabs from '../Tabs/Tabs'
 
 const Section = ({data,title,type,value=0,handleChange=null}) => {
   const [carouselToggel,setCarouselToggel]=useState(true)
@@ -14,16 +14,16 @@ const Section = ({data,title,type,value=0,handleChange=null}) => {
     <>
       <div className={styles.header}>
         <h3>{title}</h3>
-        <h4 className={styles.toggleText} onClick={handleToggle}>
+        {/* <h4 className={styles.toggleText} onClick={handleToggle}>
           {type==="song"?
           null
           :
           !carouselToggel?"Collapse All":"Show All"
           }
           
-        </h4>
+        </h4> */}
         </div>
-        {type==="song"?null:
+        {/* {type==="song"?null:
           data.length===0?(
             <CircularProgress/>
             ):(
@@ -40,8 +40,19 @@ const Section = ({data,title,type,value=0,handleChange=null}) => {
             </div>
           )
         
-        }
-        {type==="song"?(<BasicTabs data={data} value={value} handleChange={handleChange}/>):null}
+        } */}
+
+
+        <div className={styles.cardWrapper}>
+        <div className={styles.wrapper}>{
+                  data.map((ele)=>{return (<Card data={ele} type={type} key={ele.id}/> )})
+                }
+                </div>
+            </div>
+
+
+
+        {/* {type==="song"?(<BasicTabs data={data} value={value} handleChange={handleChange}/>):null} */}
     
         </>
   )

@@ -54,4 +54,3 @@ return getCard(type)
 }
 
 export default Card
-//1:52:57

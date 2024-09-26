@@ -14,16 +14,16 @@ const Section = ({data,title,type,value=0,handleChange=null}) => {
     <>
       <div className={styles.header}>
         <h3>{title}</h3>
-        {/* <h4 className={styles.toggleText} onClick={handleToggle}>
+        <h4 className={styles.toggleText} onClick={handleToggle}>
           {type==="song"?
           null
           :
           !carouselToggel?"Collapse All":"Show All"
           }
           
-        </h4> */}
+        </h4>
         </div>
-        {/* {type==="song"?null:
+        {type==="song"?null:
           data.length===0?(
             <CircularProgress/>
             ):(
@@ -40,15 +40,9 @@ const Section = ({data,title,type,value=0,handleChange=null}) => {
             </div>
           )
         
-        } */}
+        }
 
 
-        <div className={styles.cardWrapper}>
-        <div className={styles.wrapper}>{
-                  data.map((ele)=>{return (<Card data={ele} type={type} key={ele.id}/> )})
-                }
-                </div>
-            </div>
 
 
 

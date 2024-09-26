@@ -41,12 +41,7 @@ const Section = ({data,title,type,value=0,handleChange=null}) => {
           )
         
         }
-
-
-
-
-
-        {/* {type==="song"?(<BasicTabs data={data} value={value} handleChange={handleChange}/>):null} */}
+        {type==="song"?(<BasicTabs data={data} value={value} handleChange={handleChange}/>):null}
     
         </>
   )

@@ -1,123 +1,97 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from './components/Navbar/Navbar'
-import Hero from './components/Hero/Hero'
-import { fetchNewAlbums, fetchSongs, fetchTopAlbums } from './api/api'
-import Section from './components/Section/Section'
-import styles from "./App.module.css"
+import React, { useEffect, useState } from 'react';
+import Navbar from './components/Navbar/Navbar';
+import Hero from './components/Hero/Hero';
+import { fetchNewAlbums, fetchSongs, fetchTopAlbums } from './api/api';
+import Section from './components/Section/Section';
+import styles from "./App.module.css";
+
 const App = () => {
-  const [topAlbumsData,setTopAlbumsData]=useState([])
-  const [NewAlumsData,setNewAlumsData]=useState([])
-  const [songsData,setSongsData]=useState([])
-  const [filter,setFilter]=useState([])
- 
-  const [value,setValue]=useState(0)
+  const [topAlbums, setTopAlbums] = useState([]);
+  const [newAlbums, setNewAlbums] = useState([]);
+  const [songs, setSongs] = useState([]);
+  const [filteredSongs, setFilteredSongs] = useState([]);
 
-  
-  const handleChange=(e,newValue)=>{
-    console.log(newValue,"newVal")
-      setValue(newValue)
-  }
+  const [activeTab, setActiveTab] = useState(0);
 
+  const handleTabChange = (event, newTab) => {
+    console.log(newTab, "activeTab");
+    setActiveTab(newTab);
+  };
 
-  const generateSongsData=(value)=>{
-    let key;
-    if(value===0)
-    {
-      filterData(songsData);
-      return 
+  const filterSongsByGenre = (tab) => {
+    let genreKey;
+    if (tab === 0) {
+      applyFilter(songs);
+      return;
+    } else if (tab === 1) {
+      genreKey = "rock";
+    } else if (tab === 2) {
+      genreKey = "pop";
+    } else if (tab === 3) {
+      genreKey = "jazz";
+    } else if (tab === 4) {
+      genreKey = "blues";
     }
-    else if(value===1)
-    {
-      key ="rock";
 
-    }
-    else if(value===2)
-    {
-      key="pop";
-    }
-    else if(value===3)
-    {
-      key="jazz";
-    }
-    else if(value===4)
-    {
-      key="blues";
-    }
-    const res=songsData.filter((item)=>item.genre.key===key)
-    filterData(res)
+    const filtered = songs.filter((track) => track.genre.key === genreKey);
+    applyFilter(filtered);
+  };
 
-  }
-  const filterData=(songs)=>{
-    setFilter(songs)
-  }
-const generateAllSongData=async ()=>{
-  try{
-    const res=await fetchSongs()
-    setSongsData(res);
-    setFilter(res)
+  const applyFilter = (filteredSongs) => {
+    setFilteredSongs(filteredSongs);
+  };
 
-  }
-  catch(e)
-  {
-    console.error(e)
-  }
-}
-
-  const generateTopAlbums=async()=>{
-    try{
-      const data=await fetchTopAlbums();
-      // console.log(data)
-      setTopAlbumsData(data);
+  const fetchAllSongs = async () => {
+    try {
+      const data = await fetchSongs();
+      setSongs(data);
+      setFilteredSongs(data);
+    } catch (error) {
+      console.error(error);
     }
-    catch(e)
-    {
-      console.error(e)
+  };
+
+  const fetchTopAlbumsData = async () => {
+    try {
+      const albums = await fetchTopAlbums();
+      setTopAlbums(albums);
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
 
-  const generateNewAlbums=async()=>{
-      try{
-        const data=await fetchNewAlbums();
-        // console.log(data)
-        setNewAlumsData(data);
-      }
-      catch(e)
-      {
-        console.error(e)
-      }
-  }
-  useEffect(()=>{
-    generateSongsData(value)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[value])
+  const fetchNewAlbumsData = async () => {
+    try {
+      const albums = await fetchNewAlbums();
+      setNewAlbums(albums);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-  useEffect(()=>{
-   generateTopAlbums()
-   generateNewAlbums()
-   generateAllSongData()
-  },[])
+  useEffect(() => {
+    filterSongsByGenre(activeTab);
+  }, [activeTab]);
+
+  useEffect(() => {
+    fetchTopAlbumsData();
+    fetchNewAlbumsData();
+    fetchAllSongs();
+  }, []);
+
   return (
     <div>
-      <Navbar/>
-      <Hero/>
-      {/* {
-        
-        topAlbumsData.map((topAlbum)=>
-          (<Card data={topAlbum} type="album" key={topAlbum.id}/>)
-        )
-
-      } */}
+      <Navbar />
+      <Hero />
       <div className={styles.sectionWrapper}>
-
-      <Section data={topAlbumsData} title="Top Albums" type="album"/>
-      <Section data={NewAlumsData} title="New Albums" type="album"/>
+        <Section data={topAlbums} title="Top Albums" type="album" />
+        <Section data={newAlbums} title="New Albums" type="album" />
       </div>
       <div className={styles.songs}>
-      <Section data={filter} title="Songs" type="song" value={value} handleChange={handleChange} />
+        <Section data={filteredSongs} title="Songs" type="song" value={activeTab} handleChange={handleTabChange} />
       </div>
     </div>
   );
-}
+};
 
-export default App
-
+export default App;
